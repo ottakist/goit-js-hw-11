@@ -1,0 +1,41 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+.gallery{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.photo-card{
+    max-width: 400px;
+    /* overflow: hidden; */
+   
+}
+
+.gallery_image{
+    width: 400px;
+    height:250px;
+    object-fit: cover;
+}
+.info{
+    display: flex;
+    justify-content: space-around;
+}
+.search-form{
+    text-align: center;
+    background-color: cadetblue;
+}
+.search-form button{
+    height: 46px;
+    width: 60px;
+    
+}
+.search-form input{
+    width: 350px;
+    height: 40px;
+    font-size: 16px;
+    line-height: 1.8;
+    padding-left: 15px;
+}
