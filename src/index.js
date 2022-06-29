@@ -20,7 +20,8 @@ const search = (event)=>{
     fetchImage(input.value,pageNum).then(photos => {
         if(photos.totalHits!=0){
             Notiflix.Notify.success("Hooray! We found totalHits images.")
-        addPic(photos.hits)
+            addPic(photos.hits)
+            lightbox.refresh()
         }
         else{
             Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.") 
@@ -32,12 +33,12 @@ load.style.visibility="visible"
 const loading=()=>{
     pageNum++
     fetchImage(input.value,pageNum).then(photos => {
-        lightbox.refresh()
-        addPic(photos.hits)
+      addPic(photos.hits)
     })
     .catch(()=>{
-        Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.") 
+      Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.") 
     })
+    lightbox.refresh()
 }
 form.addEventListener("submit",search)
 load.addEventListener("click",loading)
