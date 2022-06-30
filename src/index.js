@@ -14,13 +14,51 @@ let pageNum = 1;
 load.style.visibility="hidden"
 // gallery=$(".gallery")
 
-const search = (event)=>{
+const addPic=(object)=>{
+  try{
+    for (const image of object) {
+    let content =` <div class="photo-card">
+    <a class="gallery__link" href="${image.largeImageURL}">
+    <div>
+    <img src="${image.webformatURL}" alt="${image.tags}" class="gallery_image" loading="lazy" />
+    </div>
+    </a>
+    <div class="info">
+      <p class="info-item">Likes:<br> 
+        <b>${image.likes}</b>
+      </p>
+      <p class="info-item">Vievs:<br>
+        <b>${image.views}</b>
+      </p>
+      <p class="info-item">Comments:<br>
+        <b>${image.comments}</b>
+      </p>
+      <p class="info-item">Downloads:<br>
+        <b>${image.downloads}</b>
+      </p>
+    </div>
+    
+    </div>`
+    gallery.insertAdjacentHTML('beforeend', content);
+}
+
+
+    }
+    catch{
+    }
+
+
+} 
+var lightbox = new SimpleLightbox('.gallery a', {});
+
+const  search = async (event)=>{
     event.preventDefault()
     pageNum=1
-    fetchImage(input.value,pageNum).then(photos => {
+    gallery.innerHTML=""
+    await fetchImage(input.value,pageNum).then(photos => {
         if(photos.totalHits!=0){
-            Notiflix.Notify.success("Hooray! We found totalHits images.")
-            addPic(photos.hits)
+            Notiflix.Notify.success(`Hooray! We found ${photos.totalHits} images.`)
+          addPic(photos.hits)
             lightbox.refresh()
         }
         else{
@@ -30,9 +68,9 @@ const search = (event)=>{
 load.style.visibility="visible"
 }
 
-const loading=()=>{
+const loading =async()=>{
     pageNum++
-    fetchImage(input.value,pageNum).then(photos => {
+    await fetchImage(input.value,pageNum).then(photos => {
       addPic(photos.hits)
     })
     .catch(()=>{
@@ -43,39 +81,3 @@ const loading=()=>{
 form.addEventListener("submit",search)
 load.addEventListener("click",loading)
 
- const addPic=(object)=>{
-   
-        
-      try{
-        for (const image of object) {
-        let content =` <div class="photo-card">
-        <a class="gallery__link" href="${image.largeImageURL}">
-        <div>
-        <img src="${image.webformatURL}" alt="${image.tags}" class="gallery_image" loading="lazy" />
-        </div>
-        </a>
-        <div class="info">
-          <p class="info-item">Likes:<br> 
-            <b>${image.likes}</b>
-          </p>
-          <p class="info-item">Vievs:<br>
-            <b>${image.views}</b>
-          </p>
-          <p class="info-item">Comments:<br>
-            <b>${image.comments}</b>
-          </p>
-          <p class="info-item">Downloads:<br>
-            <b>${image.downloads}</b>
-          </p>
-        </div>
-        
-        </div>`
-        gallery.insertAdjacentHTML('beforeend', content);
-    }
-    var lightbox = new SimpleLightbox('.gallery a', {});
-        }
-        catch{
-        }
-
-
- }
